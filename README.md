@@ -1,4 +1,3 @@
-
 # ROYAL RECIPES
 
 # The Current Goal
@@ -12,10 +11,17 @@
 - save user data to db (mongo atlas)
 ```
 
-# Recipe 
+# Recipe
 
-Make a meal-planner calendar type application, 
+Make a meal-planner calendar type application,
 where you can plan out your meals for about a week by choosing a few recipes
 and the recipes will be saved
 and the ingredients for the recipes will be added to a shopping list (/your cart)
 
+# Created By:
+
+1. Jef Ogues
+2. Boris Cabrera
+3. Joyce Chan
+4. Austin Grech
+5. Jacob Garber
