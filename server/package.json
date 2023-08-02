@@ -17,8 +17,10 @@
     "jsonwebtoken": "^8.5.1",
 >>>>>>> Stashed changes
     "apollo-server-express": "^3.6.2",
+    "bcrypt": "^4.0.1",
     "express": "^4.17.2",
     "graphql": "^16.3.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^7.0.2"
   },
   "devDependencies": {
