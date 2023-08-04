@@ -1,11 +1,9 @@
-
-const { Profile } = require('../models');
+const { Profile } = require("../models");
 
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Recipe, Order } = require("../models");
 const jwt = require("jsonwebtoken"); // Import the 'jsonwebtoken' library for token verification
-const { signToken } = require('../utils/auth');
-
+const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
@@ -17,11 +15,9 @@ const resolvers = {
       return User.findOne({ _id: userId });
     },
 
-
     recipes: async () => {
       return Recipe.find({}); // Fix the typo from "Recipes" to "Recipe"
     },
-
   },
 
   Mutation: {

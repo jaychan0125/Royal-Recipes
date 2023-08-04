@@ -4,7 +4,7 @@ import { Container, Card, Button, Row, Col } from "react-bootstrap";
 const SavedRecipes = ({ savedRecipes, handleDeleteRecipe }) => {
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div fluid className="text-light bg-dark p-5 header">
         <Container>
           <h1>Your Saved Recipes</h1>
         </Container>

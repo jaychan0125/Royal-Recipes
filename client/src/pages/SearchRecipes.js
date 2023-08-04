@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Container, Col, Form, Button, Card, Row } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Form,
+  Button,
+  Card,
+  Row,
+  Modal,
+} from "react-bootstrap";
 
 const SearchRecipes = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [showRecipePopup, setShowRecipePopup] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -38,14 +48,61 @@ const SearchRecipes = () => {
     }
   };
 
-  const handleSaveRecipe = (recipeId) => {
-    // Implement the logic to save the recipe to your database or localStorage
-    console.log("Recipe saved:", recipeId);
+  const handleSaveRecipe = (recipe) => {
+    try {
+      // Check if there are saved recipes in localStorage
+      const savedRecipes =
+        JSON.parse(localStorage.getItem("savedRecipes")) || [];
+
+      // Check if the recipe is already saved
+      const existingRecipe = savedRecipes.find(
+        (savedRecipe) => savedRecipe.recipeId === recipe.recipeId
+      );
+
+      if (!existingRecipe) {
+        // If the recipe is not already saved, add it to the list of saved recipes
+        savedRecipes.push(recipe);
+        localStorage.setItem("savedRecipes", JSON.stringify(savedRecipes));
+        console.log("Recipe saved:", recipe);
+      } else {
+        // If the recipe is already saved, you can show a message or handle it as needed
+        console.log("Recipe is already saved.");
+      }
+    } catch (error) {
+      console.error("Error saving recipe:", error);
+    }
+  };
+
+  const handleViewRecipe = async (recipeId) => {
+    try {
+      const apiKey = "d59a6e3dde9046a9b6f5bbb557db0a89";
+      const response = await fetch(
+        `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch recipe details.");
+      }
+
+      const recipeDetails = await response.json();
+      setSelectedRecipe(recipeDetails);
+      handleShowRecipePopup();
+    } catch (error) {
+      console.error("Error fetching recipe details:", error);
+    }
+  };
+
+  const handleShowRecipePopup = () => {
+    setShowRecipePopup(true);
+  };
+
+  const handleCloseRecipePopup = () => {
+    setShowRecipePopup(false);
   };
 
   return (
     <>
-      <div className="text-light bg-dark p-5">
+      <div className="text-light bg-dark p-5 header">
         <Container>
           <h1>Search for Recipes!</h1>
           <Form onSubmit={handleFormSubmit}>
@@ -92,7 +149,13 @@ const SearchRecipes = () => {
                   <Card.Text>{recipe.summary}</Card.Text>
                   <Button
                     className="btn-block btn-info"
-                    onClick={() => handleSaveRecipe(recipe.recipeId)}
+                    onClick={() => handleViewRecipe(recipe.recipeId)}
+                  >
+                    View Recipe Details
+                  </Button>
+                  <Button
+                    className="btn-block btn-info mt-2"
+                    onClick={() => handleSaveRecipe(recipe)}
                   >
                     Save This Recipe!
                   </Button>
@@ -102,6 +165,23 @@ const SearchRecipes = () => {
           ))}
         </Row>
       </Container>
+
+      {/* Recipe Popup */}
+      <Modal show={showRecipePopup} onHide={handleCloseRecipePopup}>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedRecipe?.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Ingredients:</h4>
+          {selectedRecipe?.extendedIngredients?.map((ingredient) => (
+            <p key={ingredient.id}>{ingredient.original}</p>
+          ))}
+          <h4>Instructions:</h4>
+          <div
+            dangerouslySetInnerHTML={{ __html: selectedRecipe?.instructions }}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
