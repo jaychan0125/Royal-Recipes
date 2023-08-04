@@ -1,54 +1,25 @@
-<<<<<<< Updated upstream
-const { Profile } = require('../models');
-=======
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Recipe, Order } = require("../models");
 const jwt = require("jsonwebtoken"); // Import the 'jsonwebtoken' library for token verification
->>>>>>> Stashed changes
 
 const resolvers = {
   Query: {
-    profiles: async () => {
-      return Profile.find();
+    users: async () => {
+      return User.find({});
     },
 
-    profile: async (parent, { profileId }) => {
-      return Profile.findOne({ _id: profileId });
+    user: async (parent, { userId }) => {
+      return User.findOne({ _id: userId });
     },
-<<<<<<< Updated upstream
-=======
 
     recipes: async () => {
       return Recipe.find({}); // Fix the typo from "Recipes" to "Recipe"
     },
->>>>>>> Stashed changes
   },
 
   Mutation: {
-    addProfile: async (parent, { name }) => {
-      return Profile.create({ name });
-    },
-    addSkill: async (parent, { profileId, skill }) => {
-      return Profile.findOneAndUpdate(
-        { _id: profileId },
-        {
-          $addToSet: { skills: skill },
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
-    },
-    removeProfile: async (parent, { profileId }) => {
-      return Profile.findOneAndDelete({ _id: profileId });
-    },
-    removeSkill: async (parent, { profileId, skill }) => {
-      return Profile.findOneAndUpdate(
-        { _id: profileId },
-        { $pull: { skills: skill } },
-        { new: true }
-      );
+    addUser: async (parent, args) => {
+      return User.create(args);
     },
 
     // Add more mutations here

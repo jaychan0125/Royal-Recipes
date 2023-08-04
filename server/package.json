@@ -11,11 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< Updated upstream
-=======
     "bcrypt": "^4.0.1",
     "jsonwebtoken": "^8.5.1",
->>>>>>> Stashed changes
     "apollo-server-express": "^3.6.2",
     "express": "^4.17.2",
     "graphql": "^16.3.0",

@@ -1,12 +1,8 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  type Profile {
+  type User {
     _id: ID
-<<<<<<< Updated upstream
-    name: String
-    skills: [String]!
-=======
     firstName: String!
     lastName: String!
     email: String!
@@ -34,21 +30,16 @@ const typeDefs = gql`
   type Auth {
     token: ID
     user: User
->>>>>>> Stashed changes
   }
 
   type Query {
-    profiles: [Profile]!
-    profile(profileId: ID!): Profile
+    users: [User]!
+    user(userId: ID!): User
+    recipes: [Recipe]!
+    order: [Order]!
   }
 
   type Mutation {
-<<<<<<< Updated upstream
-    addProfile(name: String!): Profile
-    addSkill(profileId: ID!, skill: String!): Profile
-    removeProfile(profileId: ID!): Profile
-    removeSkill(profileId: ID!, skill: String!): Profile
-=======
     addUser(name: String!): User
     addSkill(userId: ID!, skill: String!): User
     removeUser(userId: ID!): User
@@ -77,7 +68,6 @@ const typeDefs = gql`
     servingSize: Int
     ingredients: String
     instructions: String
->>>>>>> Stashed changes
   }
 `;
 
