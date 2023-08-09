@@ -58,7 +58,7 @@ const SignupForm = () => {
           show={showAlert}
           variant="danger"
         >
-          {errorMessage || "Something went wrong with your signup!"}
+          {errorMessage|| "Something went wrong with your signup!"}
         </Alert>
 
         <Form.Group className="mb-3">

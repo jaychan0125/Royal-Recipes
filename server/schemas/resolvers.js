@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Recipe, Order } = require("../models");
 const jwt = require("jsonwebtoken"); // Import the 'jsonwebtoken' library for token verification
+const { signToken } = require("../utils/auth"); 
 
 const resolvers = {
   Query: {
@@ -62,6 +63,22 @@ const resolvers = {
         throw new AuthenticationError("Invalid token.");
       }
     },
+
+    login: async (parent, args) => {
+      const user = await User.findOne( {email:args.email} );
+      if (!user) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+      const correctPw = await user.isCorrectPassword(args.password);
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+      const token = signToken(user);
+
+      //console.log("token: "+token);
+      return {  user, token };
+    },
+
   },
 };
 
