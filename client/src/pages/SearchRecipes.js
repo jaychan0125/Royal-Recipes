@@ -16,7 +16,9 @@ const SearchRecipes = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showRecipePopup, setShowRecipePopup] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);   //set selectedIngredients as an empty array
-
+  const [savedRecipes, setSavedRecipes] = useState(
+    JSON.parse(localStorage.getItem("savedRecipes")) || []
+  ); 
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -53,9 +55,9 @@ const SearchRecipes = () => {
 
   const handleSaveRecipe = (recipe) => {
     try {
-      // Check if there are saved recipes in localStorage
-      const savedRecipes =
-        JSON.parse(localStorage.getItem("savedRecipes")) || [];
+      // // Check if there are saved recipes in localStorage
+      // const savedRecipes =
+      //   JSON.parse(localStorage.getItem("savedRecipes")) || [];
 
       // Check if the recipe is already saved
       const existingRecipe = savedRecipes.find(
@@ -67,6 +69,7 @@ const SearchRecipes = () => {
         savedRecipes.push(recipe);
         localStorage.setItem("savedRecipes", JSON.stringify(savedRecipes));
         console.log("Recipe saved:", recipe);
+        // console.log(savedRecipes);
       } else {
         // If the recipe is already saved, you can show a message or handle it as needed
         console.log("Recipe is already saved.");
@@ -88,6 +91,7 @@ const SearchRecipes = () => {
       }
 
       const recipeDetails = await response.json();
+      console.log(recipeDetails);
       setSelectedRecipe(recipeDetails);
       handleShowRecipePopup();
     } catch (error) {

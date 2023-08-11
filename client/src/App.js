@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   ApolloClient,
@@ -37,14 +37,18 @@ const client = new ApolloClient({
 });
 
 function App() {
+    const [savedRecipes, setSavedRecipes] = useState(
+    JSON.parse(localStorage.getItem('savedRecipes')) || []
+  );
+  
   return (
     <ApolloProvider client={client}>
       <Router>
         <>
           <Navbar />
           <Routes>
-            <Route path="/" element={<SearchRecipes />} />
-            <Route path="/saved" element={<SavedRecipes />} />
+            <Route path="/" element={<SearchRecipes setSavedRecipes={setSavedRecipes} />} />
+            <Route path="/saved" element={<SavedRecipes savedRecipes={savedRecipes} setSavedRecipes={setSavedRecipes} />} />
             <Route
               path="*"
               element={<h1 className="display-2">Wrong page!</h1>}
