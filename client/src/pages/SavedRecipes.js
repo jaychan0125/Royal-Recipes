@@ -4,8 +4,6 @@ import { Container, Card, Button, Row, Col } from "react-bootstrap";
 const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
   
   const handleDeleteRecipe = (deleteRecipe) => {
-    console.log(deleteRecipe)
-    console.log(savedRecipes)
     const updatedSavedRecipes = savedRecipes.filter(savedRecipe => savedRecipe.recipeId !== deleteRecipe);
     localStorage.setItem("savedRecipes", JSON.stringify(updatedSavedRecipes)); // Update localStorage
     setSavedRecipes(updatedSavedRecipes);  
