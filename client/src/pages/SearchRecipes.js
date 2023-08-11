@@ -121,6 +121,7 @@ const SearchRecipes = () => {
       }
 
       console.log(updatedSelectedIngredients);
+      localStorage.setItem("savedOrders", JSON.stringify(updatedSelectedIngredients));
 
       setSelectedIngredients(updatedSelectedIngredients);
       localStorage.setItem("selectedIngredients", JSON.stringify(updatedSelectedIngredients));
