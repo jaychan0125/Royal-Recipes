@@ -7,9 +7,8 @@ const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
     console.log(deleteRecipe)
     console.log(savedRecipes)
     const updatedSavedRecipes = savedRecipes.filter(savedRecipe => savedRecipe.recipeId !== deleteRecipe);
+    localStorage.setItem("savedRecipes", JSON.stringify(updatedSavedRecipes)); // Update localStorage
     setSavedRecipes(updatedSavedRecipes);  
-    console.log('after', savedRecipes)
-    console.log(updatedSavedRecipes);
   }
 
   return (
