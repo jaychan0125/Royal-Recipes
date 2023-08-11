@@ -1,7 +1,8 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Recipe, Order } = require("../models");
 const jwt = require("jsonwebtoken"); // Import the 'jsonwebtoken' library for token verification
-const { signToken } = require("../utils/auth"); 
+const { signToken } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -25,7 +26,8 @@ const resolvers = {
 
     // Add more mutations here
     addRecipe: async (parent, args) => {
-      return Recipe.create(args);
+      const hashedPassword = await bcrypt.hash(args.password);
+      return User.create({ ...args, password: hashedPassword });
     },
 
     updateRecipe: async (parent, { recipeId, updateData }) => {
@@ -65,20 +67,25 @@ const resolvers = {
     },
 
     login: async (parent, args) => {
-      const user = await User.findOne( {email:args.email} );
+      const { email, password } = args;
+
+      // Find user by email
+      const user = await User.findOne({ email });
       if (!user) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError("Incorrect credentials");
       }
-      const correctPw = await user.isCorrectPassword(args.password);
-      if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
+
+      // Check password using bcrypt.compare
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        throw new AuthenticationError("Incorrect credentials");
       }
+
+      // Generate token
       const token = signToken(user);
 
-      //console.log("token: "+token);
-      return {  user, token };
+      return user; // Return the entire user object
     },
-
   },
 };
 
