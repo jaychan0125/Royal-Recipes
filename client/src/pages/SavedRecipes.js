@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
-const SavedRecipes = ({ savedRecipes, handleDeleteRecipe }) => {
+const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
+  
+  const handleDeleteRecipe = (deleteRecipe) => {
+    console.log(deleteRecipe)
+    console.log(savedRecipes)
+    const updatedSavedRecipes = savedRecipes.filter(savedRecipe => savedRecipe.recipeId !== deleteRecipe);
+    setSavedRecipes(updatedSavedRecipes);  
+    console.log('after', savedRecipes)
+    console.log(updatedSavedRecipes);
+  }
+
   return (
     <>
       <div fluid className="text-light bg-dark p-5 header">
@@ -11,7 +21,7 @@ const SavedRecipes = ({ savedRecipes, handleDeleteRecipe }) => {
       </div>
       <Container>
         <h2 className="pt-5">
-          {savedRecipes.length
+          {savedRecipes?.length
             ? `Viewing ${savedRecipes.length} saved ${
                 savedRecipes.length === 1 ? "recipe" : "recipes"
               }:`
@@ -19,7 +29,7 @@ const SavedRecipes = ({ savedRecipes, handleDeleteRecipe }) => {
         </h2>
         <div>
           <Row>
-            {savedRecipes.map((recipe) => {
+            {savedRecipes?.map((recipe) => {
               return (
                 <Col md="4" key={recipe.id}>
                   <Card border="dark">
@@ -38,8 +48,10 @@ const SavedRecipes = ({ savedRecipes, handleDeleteRecipe }) => {
                       <Card.Text>{recipe.description}</Card.Text>
                       <Button
                         className="btn-block btn-danger"
-                        onClick={() => handleDeleteRecipe(recipe.id)}
-                      >
+                        onClick={() => {
+                          console.log("Clicked delete for recipe:", recipe);
+                          handleDeleteRecipe(recipe.recipeId);
+                        }}                      >
                         Delete this Recipe!
                       </Button>
                     </Card.Body>
