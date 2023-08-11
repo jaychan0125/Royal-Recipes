@@ -137,3 +137,12 @@ button {
   margin-left: auto;
   margin-right: auto;
 }
+
+.card {
+  margin: 20px;
+}
+
+.border-dark {
+  height: 500px;
+  width: 380px;
+}
