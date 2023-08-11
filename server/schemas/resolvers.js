@@ -26,7 +26,7 @@ const resolvers = {
 
     // Add more mutations here
     addRecipe: async (parent, args) => {
-      const hashedPassword = await bcrypt.hash(args.password, saltRounds);
+      const hashedPassword = await bcrypt.hash(args.password);
       return User.create({ ...args, password: hashedPassword });
     },
 
