@@ -68,6 +68,30 @@ const SearchRecipes = () => {
     setShowRecipePopup(false);
   };
 
+  const handleIngredientToggle = (ingredient, event) => {
+    try {
+      // selectedIngredients is an empty array defined above with useState([])
+      let updatedSelectedIngredients = [...selectedIngredients]; // Create a new array to avoid mutation
+
+      if (event.target.checked) {
+        updatedSelectedIngredients.push(ingredient);
+      } else {
+        updatedSelectedIngredients = updatedSelectedIngredients.filter(
+          (selected) => selected !== ingredient
+        );
+      }
+
+      console.log(updatedSelectedIngredients);
+      localStorage.setItem("savedOrders", JSON.stringify(updatedSelectedIngredients));
+
+      setSelectedIngredients(updatedSelectedIngredients);
+      localStorage.setItem("selectedIngredients", JSON.stringify(updatedSelectedIngredients));
+    } catch (error) {
+      console.error("Error saving ingredients:", error);
+    }
+  };
+
+
   return (
     <>
       {/* Header */}
