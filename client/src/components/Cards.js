@@ -13,7 +13,7 @@ function Cards(props) {
     if (props.saved) {
       return (
         <Button
-        className="btn-block btn-danger"
+        className="btn-block btn-danger mt-2"
         onClick={() => {
           console.log("Clicked delete for recipe:", props.recipe);
           handleDeleteRecipe(props.recipe.recipeId);
@@ -23,20 +23,12 @@ function Cards(props) {
       )
     } else {
       return (
-        <>
-          <Button
-            className="btn-block btn-info"
-            onClick={() => handleViewRecipe(props.recipe.recipeId)}
-          >
-            View Recipe Details
-          </Button>
           <Button
             className="btn-block btn-info mt-2"
             onClick={() => handleSaveRecipe(props.recipe)}
           >
             Save This Recipe!
           </Button>
-        </>
       )
     }
   }
@@ -54,6 +46,12 @@ function Cards(props) {
           <Card.Body>
             <Card.Title>{props.recipe.title}</Card.Title>
             <Card.Text>{props.recipe.summary}</Card.Text>
+            <Button
+            className="btn-block btn-info"
+            onClick={() => handleViewRecipe(props.recipe.recipeId)}
+          >
+            View Recipe Details
+          </Button>
             {renderButton()}
           </Card.Body>
         </Card>

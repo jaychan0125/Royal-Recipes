@@ -1,13 +1,14 @@
 import React from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Modal } from "react-bootstrap";
 import Cards from "../components/Cards";
+import RecipeModal from "../components/RecipeModal";
 
-const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
+const SavedRecipes = (props) => {
   
   const handleDeleteRecipe = (deleteRecipe) => {
-    const updatedSavedRecipes = savedRecipes.filter(savedRecipe => savedRecipe.recipeId !== deleteRecipe);
+    const updatedSavedRecipes = props.savedRecipes.filter(savedRecipe => savedRecipe.recipeId !== deleteRecipe);
     localStorage.setItem("savedRecipes", JSON.stringify(updatedSavedRecipes)); // Update localStorage
-    setSavedRecipes(updatedSavedRecipes);  
+    props.setSavedRecipes(updatedSavedRecipes);  
   }
 
   return (
@@ -17,20 +18,22 @@ const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
           <h1>Your Saved Recipes</h1>
         </Container>
       </div>
+
       <Container>
         <h2 className="pt-5">
-          {savedRecipes?.length
-            ? `Viewing ${savedRecipes.length} saved ${
-                savedRecipes.length === 1 ? "recipe" : "recipes"
+          {props.savedRecipes?.length
+            ? `Viewing ${props.savedRecipes.length} saved ${
+                props.savedRecipes.length === 1 ? "recipe" : "recipes"
               }:`
             : "You have no saved recipes!"}
         </h2>
         <div>
           <Row>
-            {savedRecipes?.map((recipe, i) => {
+            {props.savedRecipes?.map((recipe, i) => {
               return (
                 <Cards key={'savecard: ' + i}
                   recipe={recipe}
+                  handleViewRecipe={props.handleViewRecipe} 
                   handleDeleteRecipe= {handleDeleteRecipe}
                   saved={true}
                 />
@@ -39,6 +42,12 @@ const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
           </Row>
         </div>
       </Container>
+
+      {/* Recipe Popup */}
+      <Modal show={props.showRecipePopup} onHide={props.handleCloseRecipePopup}>
+        <RecipeModal selectedRecipe={props.selectedRecipe} />
+      </Modal>
+
     </>
   );
 };
