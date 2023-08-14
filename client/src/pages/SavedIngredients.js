@@ -2,31 +2,32 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 const SavedIngredients = ({ selectedIngredients, setselectedIngredients }) => {
-
   return (
     <>
       {/* Header */}
-      <div className="text-light bg-dark p-5 header">
+      <div className="text-light bg-dark p-5 header ShopH1">
         <Container>
-          <h1>Your Selected Ingredients!</h1>
+          <h1>Your Shopping List</h1>
         </Container>
       </div>
 
       {/* Main Content */}
       <Container>
-        <h2 className="pt-5">
+        <h2 className="pt-5 ShopH2">
           {selectedIngredients?.length
             ? `Viewing ${selectedIngredients.length} saved ${
-              selectedIngredients.length === 1 ? "Ingredient" : "Ingredients"
+                selectedIngredients.length === 1 ? "Ingredient" : "Ingredients"
               }:`
             : "You have no saved Ingredients!"}
         </h2>
 
-        <ul>
+        <ul className="Shop">
           {selectedIngredients.map((ingre, i) => {
             return (
-              <li key={'ingredient ' + i}>{ingre}</li>
-            )
+              <li className="ShopLi" key={"ingredient " + i}>
+                {ingre}
+              </li>
+            );
           })}
         </ul>
       </Container>

@@ -11,6 +11,12 @@ h6 {
   font-family: "Rubik Mono One", sans-serif;
 }
 
+.header {
+  background-image: url(../public/food.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .small {
   font-weight: 300;
   font-style: italic;
@@ -144,4 +150,28 @@ button {
 .border-dark {
   height: 500px;
   width: 380px;
+}
+
+.ShopH1 {
+  text-align: center;
+}
+.ShopH2 {
+  text-align: center;
+  border-bottom: 2px solid black;
+  margin-bottom: 20px;
+}
+.Shop {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  border: 2px solid black;
+}
+
+.ShopLi {
+  border-bottom: 2px solid black;
+  padding: 10px;
+}
+
+.shopLi:last-child {
+  border-bottom: none;
 }
