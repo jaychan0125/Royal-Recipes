@@ -40,13 +40,42 @@ const client = new ApolloClient({
 });
 
 function App() {
-    const [savedRecipes, setSavedRecipes] = useState(
-    JSON.parse(localStorage.getItem('savedRecipes')) || []
-  );
+  const [savedRecipes, setSavedRecipes] = useState(
+    JSON.parse(localStorage.getItem('savedRecipes')) || []);
 
   const [selectedIngredients, setSelectedIngredients] = useState(
     JSON.parse(localStorage.getItem('selectedIngredients')) || []);   //set selectedIngredients as an empty array
 
+  const [showRecipePopup, setShowRecipePopup] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  
+  const handleViewRecipe = async (recipeId) => {
+    try {
+      const apiKey = "d59a6e3dde9046a9b6f5bbb557db0a89";
+      const response = await fetch(
+        `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch recipe details.");
+      }
+
+      const recipeDetails = await response.json();
+      console.log(recipeDetails);
+      setSelectedRecipe(recipeDetails);
+      handleShowRecipePopup();
+    } catch (error) {
+      console.error("Error fetching recipe details:", error);
+    }
+  };
+  
+  const handleShowRecipePopup = () => {
+    setShowRecipePopup(true);
+  };
+  
+  const handleCloseRecipePopup = () => {
+    setShowRecipePopup(false);
+  };
 
   return (
     <ApolloProvider client={client}>
@@ -54,8 +83,22 @@ function App() {
         <>
           <Navbar />
           <Routes>
-            <Route path="/" element={<SearchRecipes setSavedRecipes={setSavedRecipes} />} />
-            <Route path="/saved" element={<SavedRecipes savedRecipes={savedRecipes} setSavedRecipes={setSavedRecipes} />} />
+            <Route path="/" element={<SearchRecipes 
+              setSavedRecipes={setSavedRecipes} 
+              savedRecipes={savedRecipes}
+              handleViewRecipe={handleViewRecipe}
+              handleCloseRecipePopup={handleCloseRecipePopup}
+              showRecipePopup={showRecipePopup}
+              selectedRecipe={selectedRecipe}
+              />} />
+            <Route path="/saved" element={<SavedRecipes 
+              savedRecipes={savedRecipes} 
+              setSavedRecipes={setSavedRecipes}
+              handleViewRecipe={handleViewRecipe}
+              handleCloseRecipePopup={handleCloseRecipePopup}
+              showRecipePopup={showRecipePopup}
+              selectedRecipe={selectedRecipe}
+              />} />
             <Route path="/ingredient" element={<SavedIngredients selectedIngredients={selectedIngredients} setselectedIngredients={setSelectedIngredients} />} />
 
             <Route
