@@ -1,57 +1,18 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Col,
-  Form,
-  Button,
-  Card,
-  Row,
-  Modal,
-  InputGroup,
-} from "react-bootstrap";
+import Cards from '../components/Cards'
+import RecipeModal from "../components/RecipeModal";
+import SearchBar from "../components/SearchBar";
+import { Container, Row, Modal } from "react-bootstrap";
+
 
 const SearchRecipes = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showRecipePopup, setShowRecipePopup] = useState(false);
-  const [selectedIngredients, setSelectedIngredients] = useState([]);   //set selectedIngredients as an empty array
   const [savedRecipes, setSavedRecipes] = useState(
     JSON.parse(localStorage.getItem("savedRecipes")) || []
   ); 
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!searchInput) {
-      return;
-    }
-
-    try {
-      const apiKey = "d59a6e3dde9046a9b6f5bbb557db0a89";
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/complexSearch?query=${searchInput}&apiKey=${apiKey}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const { results } = await response.json();
-
-      const recipeData = results.map((recipe) => ({
-        recipeId: recipe.id,
-        title: recipe.title,
-        summary: recipe.summary,
-        image: recipe.image,
-      }));
-
-      setSearchResults(recipeData);
-      setSearchInput("");
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleSaveRecipe = (recipe) => {
     try {
@@ -107,56 +68,24 @@ const SearchRecipes = () => {
     setShowRecipePopup(false);
   };
 
-  const handleIngredientToggle = (ingredient, event) => {
-    try {
-      // selectedIngredients is an empty array defined above with useState([])
-      let updatedSelectedIngredients = [...selectedIngredients]; // Create a new array to avoid mutation
 
-      if (event.target.checked) {
-        updatedSelectedIngredients.push(ingredient);
-      } else {
-        updatedSelectedIngredients = updatedSelectedIngredients.filter(
-          (selected) => selected !== ingredient
-        );
-      }
-
-      console.log(updatedSelectedIngredients);
-
-      setSelectedIngredients(updatedSelectedIngredients);
-      localStorage.setItem("selectedIngredients", JSON.stringify(updatedSelectedIngredients));
-    } catch (error) {
-      console.error("Error saving ingredients:", error);
-    }
-  };
 
 
   return (
     <>
+      {/* Header */}
       <div className="text-light bg-dark p-5 header">
         <Container>
           <h1>Search for Recipes!</h1>
-          <Form onSubmit={handleFormSubmit}>
-            <Row>
-              <Col xs={12} md={8}>
-                <Form.Control
-                  name="searchInput"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type="text"
-                  size="lg"
-                  placeholder="Search for a recipe"
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
-                  Submit Search
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+          <SearchBar 
+          searchInput={searchInput} 
+          setSearchInput={setSearchInput}
+          setSearchResults={setSearchResults}
+          />
         </Container>
       </div>
 
+      {/* Main Content */}
       <Container>
         <h2 className="pt-5">
           {searchResults.length
@@ -164,65 +93,19 @@ const SearchRecipes = () => {
             : "Search for a recipe to begin"}
         </h2>
         <Row>
-          {searchResults.map((recipe) => (
-            <Col md="4" key={recipe.recipeId}>
-              <Card border="dark" className="mb-3">
-                {recipe.image ? (
-                  <Card.Img
-                    src={recipe.image}
-                    alt={`The cover for ${recipe.title}`}
-                    variant="top"
-                  />
-                ) : null}
-                <Card.Body>
-                  <Card.Title>{recipe.title}</Card.Title>
-                  <Card.Text>{recipe.summary}</Card.Text>
-                  <Button
-                    className="btn-block btn-info"
-                    onClick={() => handleViewRecipe(recipe.recipeId)}
-                  >
-                    View Recipe Details
-                  </Button>
-                  <Button
-                    className="btn-block btn-info mt-2"
-                    onClick={() => handleSaveRecipe(recipe)}
-                  >
-                    Save This Recipe!
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
+          {searchResults.map((recipe, i) => (            
+            <Cards key={'card: ' + i}
+              recipe={recipe} 
+              handleViewRecipe={handleViewRecipe} 
+              handleSaveRecipe={handleSaveRecipe} 
+            />
           ))}
         </Row>
       </Container>
 
       {/* Recipe Popup */}
       <Modal show={showRecipePopup} onHide={handleCloseRecipePopup}>
-        <Modal.Header closeButton>
-          <Modal.Title>{selectedRecipe?.title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Ingredients:</h4>
-          {selectedRecipe?.extendedIngredients?.map((ingredient) => (
-            <InputGroup className="mb-3" key={ingredient.id}>
-              <InputGroup.Checkbox
-                aria-label="Checkbox for ingredients"
-                onChange={(event) => handleIngredientToggle(ingredient.original, event)}
-                checked={selectedIngredients.includes(ingredient.original)}
-              />
-              <Form.Control
-                type="text"
-                aria-label="Text input with checkbox"
-                value={ingredient.original}
-                readOnly
-              />
-            </InputGroup>
-          ))}
-          <h4>Instructions:</h4>
-          <div
-            dangerouslySetInnerHTML={{ __html: selectedRecipe?.instructions }}
-          />
-        </Modal.Body>
+        <RecipeModal selectedRecipe={selectedRecipe} />
       </Modal>
     </>
   );
