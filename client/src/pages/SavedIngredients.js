@@ -13,6 +13,13 @@ const SavedIngredients = ({ selectedIngredients, setselectedIngredients }) => {
       </div>
       {/* Main Content */}
       <Container>
+      <h2 className="pt-5">
+          {selectedIngredients?.length
+            ? `Viewing ${selectedIngredients.length} saved ${
+              selectedIngredients.length === 1 ? "Ingredient" : "Ingredients"
+              }:`
+            : "You have no saved Ingredients!"}
+        </h2>
         <ul>
           {selectedIngredients.map((ingre, i) => {
             return (
