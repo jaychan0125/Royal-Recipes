@@ -10,6 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 
 import SearchRecipes from "./pages/SearchRecipes";
 import SavedRecipes from "./pages/SavedRecipes";
+import SavedIngredients from './pages/SavedIngredients';
 import Navbar from "./components/Navbar";
 
 // Construct our main GraphQL API endpoint
@@ -40,7 +41,9 @@ function App() {
     const [savedRecipes, setSavedRecipes] = useState(
     JSON.parse(localStorage.getItem('savedRecipes')) || []
   );
-  
+  const [selectedIngredients, setSelectedIngredients] = useState(
+    JSON.parse(localStorage.getItem('selectedIngredients')) || []);   //set selectedIngredients as an empty array
+
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -49,6 +52,7 @@ function App() {
           <Routes>
             <Route path="/" element={<SearchRecipes setSavedRecipes={setSavedRecipes} />} />
             <Route path="/saved" element={<SavedRecipes savedRecipes={savedRecipes} setSavedRecipes={setSavedRecipes} />} />
+            <Route path="/ingredient" element={<SavedIngredients selectedIngredients={selectedIngredients} setselectedIngredients={setSelectedIngredients} />} />
             <Route
               path="*"
               element={<h1 className="display-2">Wrong page!</h1>}

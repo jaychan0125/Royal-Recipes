@@ -5,7 +5,8 @@ import {Modal, InputGroup, Form} from "react-bootstrap";
 function RecipeModal(props) {
 
   const selectedRecipe = props.selectedRecipe;
-  const [selectedIngredients, setSelectedIngredients] = useState([]);   //set selectedIngredients as an empty array
+  const [selectedIngredients, setSelectedIngredients] = useState(
+    JSON.parse(localStorage.getItem('selectedIngredients')) || []);  
 
   const handleIngredientToggle = (ingredient, event) => {
     try {

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Container, Card, Button, Row, Col } from "react-bootstrap";
+import React from "react";
+import { Container, Row } from "react-bootstrap";
+import Cards from "../components/Cards";
 
 const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
   
@@ -11,7 +12,7 @@ const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5 header">
+      <div className="text-light bg-dark p-5 header">
         <Container>
           <h1>Your Saved Recipes</h1>
         </Container>
@@ -26,34 +27,13 @@ const SavedRecipes = ({ savedRecipes, setSavedRecipes }) => {
         </h2>
         <div>
           <Row>
-            {savedRecipes?.map((recipe) => {
+            {savedRecipes?.map((recipe, i) => {
               return (
-                <Col md="4" key={recipe.id}>
-                  <Card border="dark">
-                    {recipe.image ? (
-                      <Card.Img
-                        src={recipe.image}
-                        alt={`The recipe for ${recipe.title}`}
-                        variant="top"
-                      />
-                    ) : null}
-                    <Card.Body>
-                      <Card.Title>{recipe.title}</Card.Title>
-                      <p className="small">
-                        Preparation Time: {recipe.preparationTime} minutes
-                      </p>
-                      <Card.Text>{recipe.description}</Card.Text>
-                      <Button
-                        className="btn-block btn-danger"
-                        onClick={() => {
-                          console.log("Clicked delete for recipe:", recipe);
-                          handleDeleteRecipe(recipe.recipeId);
-                        }}                      >
-                        Delete this Recipe!
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                <Cards key={'savecard: ' + i}
+                  recipe={recipe}
+                  handleDeleteRecipe= {handleDeleteRecipe}
+                  saved={true}
+                />
               );
             })}
           </Row>

@@ -68,9 +68,6 @@ const SearchRecipes = () => {
     setShowRecipePopup(false);
   };
 
-
-
-
   return (
     <>
       {/* Header */}
@@ -83,7 +80,7 @@ const SearchRecipes = () => {
           setSearchResults={setSearchResults}
           />
         </Container>
-      </div>
+      </div> 
 
       {/* Main Content */}
       <Container>
@@ -97,7 +94,8 @@ const SearchRecipes = () => {
             <Cards key={'card: ' + i}
               recipe={recipe} 
               handleViewRecipe={handleViewRecipe} 
-              handleSaveRecipe={handleSaveRecipe} 
+              handleSaveRecipe={handleSaveRecipe}
+              saved={false}
             />
           ))}
         </Row>
