@@ -61,7 +61,6 @@ function App() {
       }
 
       const recipeDetails = await response.json();
-      console.log(recipeDetails);
       setSelectedRecipe(recipeDetails);
       handleShowRecipePopup();
     } catch (error) {

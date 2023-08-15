@@ -15,7 +15,6 @@ function Cards(props) {
         <Button
         className="btn-block btn-danger mt-2"
         onClick={() => {
-          console.log("Clicked delete for recipe:", props.recipe);
           handleDeleteRecipe(props.recipe.recipeId);
         }}                      >
         Delete this Recipe!

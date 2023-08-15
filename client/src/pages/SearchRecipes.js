@@ -21,15 +21,14 @@ const SearchRecipes = (props) => {
         // If the recipe is not already saved, add it to the list of saved recipes
         props.savedRecipes.push(recipe);
         localStorage.setItem("savedRecipes", JSON.stringify(props.savedRecipes));
-        console.log("Recipe saved:", recipe);
         e.currentTarget.textContent = 'Recipe Saved! 👍 '
         e.currentTarget.disabled = true;
         e.currentTarget.style.backgroundColor = 'grey'
       } else {
         // If the recipe is already saved, you can show a message or handle it as needed
-        console.log("Recipe is already saved.");
         e.currentTarget.textContent = 'Recipe Already Saved! '
         e.currentTarget.disabled = true;
+        e.currentTarget.style.backgroundColor = 'grey'
       }
     } catch (error) {
       console.error("Error saving recipe:", error);
