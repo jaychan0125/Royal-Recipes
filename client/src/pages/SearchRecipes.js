@@ -9,8 +9,9 @@ const SearchRecipes = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSaveRecipe = (recipe) => {
+  const handleSaveRecipe = (recipe, e) => {
     try {
+      e.preventDefault()
       // Check if the recipe is already saved
       const existingRecipe = props.savedRecipes.find(
         (savedRecipe) => savedRecipe.recipeId === recipe.recipeId
@@ -21,10 +22,14 @@ const SearchRecipes = (props) => {
         props.savedRecipes.push(recipe);
         localStorage.setItem("savedRecipes", JSON.stringify(props.savedRecipes));
         console.log("Recipe saved:", recipe);
-        // console.log(savedRecipes);
+        e.currentTarget.textContent = 'Recipe Saved! 👍 '
+        e.currentTarget.disabled = true;
+        e.currentTarget.style.backgroundColor = 'grey'
       } else {
         // If the recipe is already saved, you can show a message or handle it as needed
         console.log("Recipe is already saved.");
+        e.currentTarget.textContent = 'Recipe Already Saved! '
+        e.currentTarget.disabled = true;
       }
     } catch (error) {
       console.error("Error saving recipe:", error);

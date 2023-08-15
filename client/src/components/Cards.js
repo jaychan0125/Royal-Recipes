@@ -25,7 +25,7 @@ function Cards(props) {
       return (
           <Button
             className="btn-block btn-info mt-2"
-            onClick={() => handleSaveRecipe(props.recipe)}
+            onClick={(e) => handleSaveRecipe(props.recipe, e)}
           >
             Save This Recipe!
           </Button>
