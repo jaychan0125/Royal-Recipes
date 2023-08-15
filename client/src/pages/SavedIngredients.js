@@ -1,17 +1,37 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 
 const SavedIngredients = ({ selectedIngredients, setselectedIngredients }) => {
+  const handleIngredientToggle = (ingredient, event) => {
+    try {
+      let updatedSelectedIngredients = [...selectedIngredients];
+
+      if (event.target.checked) {
+        updatedSelectedIngredients.push(ingredient);
+      } else {
+        updatedSelectedIngredients = updatedSelectedIngredients.filter(
+          (selected) => selected !== ingredient
+        );
+      }
+
+      setselectedIngredients(updatedSelectedIngredients);
+      localStorage.setItem(
+        "selectedIngredients",
+        JSON.stringify(updatedSelectedIngredients)
+      );
+    } catch (error) {
+      console.error("Error saving ingredients:", error);
+    }
+  };
+
   return (
     <>
-      {/* Header */}
       <div className="text-light bg-dark p-5 header ShopH1">
         <Container>
           <h1>Your Shopping List</h1>
         </Container>
       </div>
 
-      {/* Main Content */}
       <Container>
         <h2 className="pt-5 ShopH2">
           {selectedIngredients?.length
@@ -25,7 +45,12 @@ const SavedIngredients = ({ selectedIngredients, setselectedIngredients }) => {
           {selectedIngredients.map((ingre, i) => {
             return (
               <li className="ShopLi" key={"ingredient " + i}>
-                {ingre}
+                <Form.Check
+                  type="checkbox"
+                  label={ingre}
+                  checked={selectedIngredients.includes(ingre)}
+                  onChange={(event) => handleIngredientToggle(ingre, event)}
+                />
               </li>
             );
           })}
