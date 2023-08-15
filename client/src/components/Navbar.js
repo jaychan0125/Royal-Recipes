@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
+import { Navbar, Nav, Container, Modal, Tab, Image } from "react-bootstrap";
 import SignUpForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 
@@ -15,6 +15,7 @@ const AppNavbar = () => {
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
+          <Image src={'./RoyalRecipes-no-bg.png'} alt="Logo" width="35" height="35" className="mr-2" />
             Royal Recipes
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
