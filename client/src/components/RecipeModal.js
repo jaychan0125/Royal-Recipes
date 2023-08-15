@@ -21,8 +21,6 @@ function RecipeModal(props) {
         );
       }
 
-      console.log(updatedSelectedIngredients);
-
       setSelectedIngredients(updatedSelectedIngredients);
       localStorage.setItem("selectedIngredients", JSON.stringify(updatedSelectedIngredients));
     } catch (error) {
