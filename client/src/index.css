@@ -170,6 +170,7 @@ button {
 .ShopLi {
   border-bottom: 2px solid black;
   padding: 10px;
+  list-style-type: none;
 }
 
 .shopLi:last-child {
