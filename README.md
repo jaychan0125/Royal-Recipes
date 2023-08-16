@@ -50,7 +50,7 @@ Upon clicking the 'Save This Recipe!' button, users are able to save the recipes
 Upon clicking the 'View Recipe Details' button, a list of the recipe's ingredients, as well as instructions will pop up. The user can interact with the ingredients list by clicking the checkboxes to add ingredients to their 'See Your Ingredients' page, thus creating a shopping list! User can clear ingredients off their shopping list by clicking on the check.  
 
 ## Contributors
-=- [Boris Cabrera](https://github.com/boro101094/)
+- [Boris Cabrera](https://github.com/boro101094/)
 - [Joyce Chan](https://github.com/jaychan0125/)
 - [Austin Grech](https://github.com/AustinGrech/)
 - [Jef Ogues](https://github.com/jef1197/)
