@@ -26,8 +26,7 @@ This would include features such as:
 ## Table of Contents 
 - [Deployment](#deployment)
 - [Usage](#usage)
-- [Contributors](#contributors-and-questions)
-- [Test](#test)
+- [Contributors](#contributors)
 - [License](#license)
 
 ## Deployment
